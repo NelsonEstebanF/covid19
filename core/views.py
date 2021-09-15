@@ -9,9 +9,9 @@ headers = {
     'x-rapidapi-key': "9876ebc50cmsh9aaa5671e4fe708p1a2ef1jsn86cd9b3e0005"
     }
 
-response = requests.request("GET", url, headers=headers)
-response = json.loads(response)
-response = responce['responce']
+response = requests.get(url, headers=headers)
+response = response.json()
+response = response["response"]
 
 countries = []
 for r in response:
@@ -20,4 +20,5 @@ countries.sort()
 
 # Create your views here.
 def home(request):
-    return render(request, 'core/index.html', {'cornties': countries })
+    pais = request.POST['selectedcountry'] if request.method=='POST' else ''
+    return render(request, 'core/index.html', {'countries': countries, 'pais': pais })
