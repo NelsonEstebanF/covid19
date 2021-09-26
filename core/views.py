@@ -1,4 +1,4 @@
-import requests, pprint
+import requests
 from datetime import date, timedelta
 from django.shortcuts import render
 
@@ -19,24 +19,22 @@ countries.sort()
 def covid(request):
     if request.method=='POST':
         country = request.POST['selectedcountry']
-        pointStart_date = today - timedelta( days= 7)
-        new_cases =[]
-        deaths_per_day =[]
-        weekReport =[]
-        weekReport.append(pointStart_date)
+        pointStartDate = date.today() - timedelta( days= 6)
+        yearUTC= int('{}'.format(pointStartDate.year))
+        monthUTC = int('{}'.format(pointStartDate.month)) -1
+        dayUTC = int('{}'.format(pointStartDate.day))
+        new_cases_last_seven_days =[]
+        deaths_last_seven_days =[]
+      
         for i in range(7):
-            day = today - timedelta( days= i)
+            day = pointStartDate + timedelta( days= i)
             querystring = { "country": country ,"day": day }
             response = requests.request("GET", url_history, headers=headers, params=querystring).json()
             response = response['response']
-            if response:
-                response = response[len(response)-1]
-                new_cases.append(int(response['cases']['new'])) 
-                deaths_per_day.append(int(response['deaths']['new']))
-        weekReport.append(new_cases)
-        weekReport.append(deaths_per_day)
-        pprint.pprint(weekReport)
-   
+            response = response[len(response)-1]
+            new_cases_last_seven_days.append(int(response['cases']['new']))  
+            deaths_last_seven_days.append(int(response['deaths']['new'])) 
+         
         for i in allStatistics:
             if country == i['country']:
                 new = i['cases']['new'] if i['cases']['new'] else '-'
@@ -54,7 +52,11 @@ def covid(request):
             'deaths' : deaths,
             'pais' : country,
             'countries': countries,
-            'weekReport': weekReport
+            'new_cases_last_seven_days': new_cases_last_seven_days,
+            'deaths_last_seven_days':deaths_last_seven_days,
+            'yearUTC' : yearUTC,
+            'monthUTC' : monthUTC,
+            'dayUTC' : dayUTC,  
         }
         return render(request, 'core/covid.html', context=context)
 

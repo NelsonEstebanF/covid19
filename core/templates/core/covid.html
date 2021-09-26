@@ -35,7 +35,7 @@
 
   <br>
 
-  <div class="container">
+  <div class="container" id="card">
     <h1 class="text-white">{{ pais }}</h1>
     <div class="row text-white d-flex justify-content-center align-items-center">
       <div class="col-md-3 bg-info mx-3 my-3" id="card">
@@ -91,12 +91,12 @@
         }
       },
       title: {
-        text: 'Wind speed during two days',
-        align: 'left'
+        text: '{{pais}}',
+        align: 'center'
       },
       subtitle: {
-        text: '13th & 14th of February, 2018 at two locations in Vik i Sogn, Norway',
-        align: 'left'
+        text: 'Datos correspondientes a los últimos siete diaz',
+        align: 'center'
       },
       xAxis: {
         type: 'datetime',
@@ -106,78 +106,14 @@
       },
       yAxis: {
         title: {
-          text: 'Wind speed (m/s)'
+          text: 'Personas'
         },
         minorGridLineWidth: 0,
         gridLineWidth: 0,
-        alternateGridColor: null,
-        plotBands: [{ // Light air
-          from: 0.3,
-          to: 1.5,
-          color: 'rgba(68, 170, 213, 0.1)',
-          label: {
-              style: {
-              color: '#606060'
-            }
-          }
-        }, { // Light breeze
-          from: 1.5,
-          to: 3.3,
-          color: 'rgba(0, 0, 0, 0)',
-          label: {
-              style: {
-              color: '#606060'
-            }
-          }
-        }, { // Gentle breeze
-          from: 3.3,
-          to: 5.5,
-          color: 'rgba(68, 170, 213, 0.1)',
-          label: {
-              style: {
-              color: '#606060'
-            }
-          }
-        }, { // Moderate breeze
-          from: 5.5,
-          to: 8,
-          color: 'rgba(0, 0, 0, 0)',
-          label: {
-              style: {
-              color: '#606060'
-            }
-          }
-        }, { // Fresh breeze
-          from: 8,
-          to: 11,
-          color: 'rgba(68, 170, 213, 0.1)',
-          label: {
-              style: {
-              color: '#606060'
-            }
-          }
-        }, { // Strong breeze
-          from: 11,
-          to: 14,
-          color: 'rgba(0, 0, 0, 0)',
-          label: {
-              style: {
-              color: '#606060'
-            }
-          }
-        }, { // High wind
-          from: 14,
-          to: 15,
-          color: 'rgba(68, 170, 213, 0.1)',
-          label: {
-              style: {
-              color: '#606060'
-            }
-          }
-        }]
+        alternateGridColor: null
       },
       tooltip: {
-        valueSuffix: ' m/s'
+        valueSuffix: ' personas'
       },
       plotOptions: {
         spline: {
@@ -190,22 +126,16 @@
           marker: {
             enabled: false
           },
-          pointInterval: 86400000, // one day
-          pointStart: Date.UTC(2018,13,23)
+          pointInterval: 86400000, // one year in milliseconds
+          pointStart: Date.UTC({{yearUTC}},{{monthUTC}},{{dayUTC}})
         }
       },
       series: [{
         name: 'Casos reportados',
-        data: [
-          3.7, 3.3, 3.9, 5.1, 30.5, 3.8, 4.0, 5.0, 6.1, 3.7, 3.3, 3.4,
-         
-        ]
-
+        data: {{new_cases_last_seven_days}}
       }, {
         name: 'Muertes reportadas',
-        data: [
-          3.7, 3.3, 3.9, 5.1, 3.5, 3.8, 4.0, 5.0, 6.1, 3.7, 3.3, 6.4,
-        ]
+        data: {{deaths_last_seven_days}}
       }],
       navigation: {
         menuItemStyle: {
