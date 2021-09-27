@@ -36,7 +36,7 @@
   <br>
 
   <div class="container" id="card">
-    <h1 class="text-white">{{ pais }}</h1>
+    <h1 class="text-white">{{ sel_country }}</h1>
     <div class="row text-white d-flex justify-content-center align-items-center">
       <div class="col-md-3 bg-info mx-3 my-3" id="card">
         <h1> {{ new }} </h1>
@@ -91,7 +91,7 @@
         }
       },
       title: {
-        text: '{{pais}}',
+        text: '{{ sel_country }}',
         align: 'center'
       },
       subtitle: {
@@ -132,10 +132,10 @@
       },
       series: [{
         name: 'Casos reportados',
-        data: {{new_cases_last_seven_days}}
+        data: {{week_cases}}
       }, {
         name: 'Muertes reportadas',
-        data: {{deaths_last_seven_days}}
+        data: {{week_deaths}}
       }],
       navigation: {
         menuItemStyle: {
